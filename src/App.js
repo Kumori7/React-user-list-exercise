@@ -1,23 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import AddUsers from "./components/Users/AddUser";
+import UserList from "./components/Users/UserList";
 
 function App() {
+  // initalize with empty array
+  const [userList, setUserList] = useState([]);
+
+  const addUserHandler = (uName, uAge) => {
+    // depending on previous state of list to append data to new version of list
+    setUserList((prevUserList) => {
+      // return new array where we copy all elements from previous array
+      // using spread operator to pull all elements out
+      // add to elements apart of new array
+      // we add new element after copying prevList
+      return [
+        ...prevUserList,
+        { name: uName, age: uAge, id: Math.random().toString() },
+      ];
+    });
+  };
+
+  // <UserList users={[]}/> : allows us to pass a empty array
+  // so we have no errors when running application with zero data
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <AddUsers onAddUser={addUserHandler} />
+      <UserList users={userList} />
     </div>
   );
 }
